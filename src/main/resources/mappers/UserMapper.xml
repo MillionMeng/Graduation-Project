@@ -151,4 +151,62 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByUsername" parameterType="string" resultType="com.arvin.pojo.User">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from arvin_user
+    where username = #{username}
+  </select>
+  <select id="selectByUsernamePassword" parameterType="map" resultType="com.arvin.pojo.User">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from arvin_user
+    where username = #{username}
+    and password = #{password}
+  </select>
+  <insert id="register" parameterType="com.arvin.pojo.User" >
+    insert into arvin_user (username, password,
+      email, phone, question,
+      answer, role, create_time,
+      update_time)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR},
+      #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, now(),
+      now())
+  </insert>
+  <select id="checkUsername" parameterType="string" resultType="int">
+    SELECT count(1) from arvin_user
+      where username = #{username}
+  </select>
+  <select id="checkEmail" parameterType="string" resultType="int">
+    SELECT count(1) from arvin_user
+      where email = #{email}
+  </select>
+  <select id="selectQuestionByUsername" parameterType="string" resultType="string">
+    select question
+    from arvin_user
+    where username = #{username}
+  </select>
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    select count(1) from arvin_user
+    where username = #{username}
+    and question = #{question}
+    and answer = #{answer}
+  </select>
+  <update id="updatePasswordByUsername" parameterType="map" >
+  UPDATE arvin_user
+  SET password = #{passwordNew},update_time = now();
+  where username = #{username}
+  </update>
+  <select id="checkPassword" resultType="int" parameterType="map">
+    select count(1)
+    FROM  arvin_user
+    where password = #{password}
+    and id = #{userId}
+  </select>
+  <select id="checkemailByUserId" resultType="int" parameterType="map">
+    SELECT COUNT(1) from arvin_user
+    where email = #{email}
+    and id !=#{userId}
+  </select>
 </mapper>
