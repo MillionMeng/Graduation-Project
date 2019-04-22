@@ -22,4 +22,6 @@ public interface IUserService {
     public Response<User> updateInformation(User user);
 
     public Response<User> getInformation(Integer userId);
+
+    public Response checkAdmin(User user);
 }
