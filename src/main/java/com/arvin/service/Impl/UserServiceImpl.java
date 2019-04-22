@@ -30,7 +30,7 @@ public class UserServiceImpl implements IUserService {
         if(user1 == null){
             return Response.createByErrorMessage("密码错误");
         }
-        return Response.createBySuccessMessage("登陆成功");
+        return Response.createBySuccess("登陆成功",user1);
     }
 
 
@@ -90,7 +90,7 @@ public class UserServiceImpl implements IUserService {
 
 
     public Response<String> selectQuestion(String username){
-        Response validResponse = this.checkValid(username,Const.CURRENT_USER);
+        Response validResponse = this.checkValid(username,Const.USERNAME);
         if(validResponse.isSuccess()){
             //说明用户不存在
             return Response.createByErrorMessage("用户不存在");
@@ -162,6 +162,7 @@ public class UserServiceImpl implements IUserService {
             return Response.createByErrorMessage("email已存在，请更新email再尝试更新");
         }
         User updateUser = new User();
+        updateUser.setUsername(user.getUsername());
         updateUser.setId(user.getId());
         updateUser.setEmail(user.getEmail());
         updateUser.setPhone(user.getPhone());

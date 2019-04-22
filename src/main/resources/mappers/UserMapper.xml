@@ -133,7 +133,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
-        update_time = now(),
+        update_time = now()
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -157,7 +157,7 @@
     from arvin_user
     where username = #{username}
   </select>
-  <select id="selectByUsernamePassword" parameterType="map" resultType="com.arvin.pojo.User">
+  <select id="selectByUsernamePassword" parameterType="map" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List"/>
     from arvin_user
@@ -182,12 +182,12 @@
     SELECT count(1) from arvin_user
       where email = #{email}
   </select>
-  <select id="selectQuestionByUsername" parameterType="string" resultType="string">
+  <select id="selectQuestionByUsername" parameterType="string" resultType="String">
     select question
     from arvin_user
     where username = #{username}
   </select>
-  <select id="checkAnswer" resultType="int" parameterType="map">
+  <select id="checkAnswer"  parameterType="map" resultType="int">
     select count(1) from arvin_user
     where username = #{username}
     and question = #{question}
@@ -209,4 +209,14 @@
     where email = #{email}
     and id !=#{userId}
   </select>
+  <update id="updateUserByUsername" parameterType="com.arvin.pojo.User" >
+    update arvin_user
+    set
+    password = #{password},
+    email = #{email},
+    question = #{question},
+    answer = #{answer}
+    where
+    username = #{username}
+  </update>
 </mapper>

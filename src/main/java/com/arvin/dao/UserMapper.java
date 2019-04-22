@@ -36,6 +36,6 @@ public interface UserMapper {
 
     int checkemailByUserId(@Param("email")String email,@Param("userId")Integer userId);
 
-
+    int updateUserByUsername(User record);
 
 }
