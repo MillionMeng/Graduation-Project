@@ -33,7 +33,7 @@ public class CategoryManageController {
      * @return
      */
 
-    @RequestMapping(value = "/category/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/category/add", method = RequestMethod.POST)
     @ResponseBody
     public Response addCategory(HttpSession session, @RequestParam String categoryName, @RequestParam(value = "paretId", defaultValue = "0") int parentId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -57,7 +57,7 @@ public class CategoryManageController {
      * @param categoryName
      * @return
      */
-    @RequestMapping(value = "/category/setname", method = RequestMethod.GET)
+    @RequestMapping(value = "/category/setname", method = RequestMethod.POST)
     @ResponseBody
     public Response setCategoryName(HttpSession session, @RequestParam Integer categoryId,@RequestParam String categoryName) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);

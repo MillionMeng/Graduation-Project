@@ -7,6 +7,7 @@ import com.arvin.service.ICategoryService;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Set;
  * create by Arvin Meng
  * Date: 2019/4/16.
  */
+@Service("iCategoryService")
 public class CategoryServiceImpl implements ICategoryService{
 
     @Autowired
