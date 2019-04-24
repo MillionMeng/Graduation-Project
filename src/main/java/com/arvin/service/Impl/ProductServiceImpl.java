@@ -1,11 +1,13 @@
 package com.arvin.service.Impl;
 
+import com.arvin.common.Const;
 import com.arvin.common.Response;
 import com.arvin.common.ResponseCode;
 import com.arvin.dao.CategoryMapper;
 import com.arvin.dao.ProductMapper;
 import com.arvin.pojo.Category;
 import com.arvin.pojo.Product;
+import com.arvin.service.ICategoryService;
 import com.arvin.service.IProductService;
 import com.arvin.util.DateTimeUtil;
 import com.arvin.util.PropertiesUtil;
@@ -18,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +34,8 @@ public class ProductServiceImpl implements IProductService {
     private ProductMapper productMapper;
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private ICategoryService iCategoryService;
 
 
     public Response saveOrUpdateProduct(Product product) {
@@ -125,7 +130,7 @@ public class ProductServiceImpl implements IProductService {
 
         //填充自己的sql查询逻辑
         for(Product productItem : productList){
-            ProductListVo productListVo = ProducListtConversionVo(productItem);
+            ProductListVo productListVo = ProducListConversionVo(productItem);
             productListVoList.add(productListVo);
         }
         //pageHelper-收尾
@@ -137,12 +142,12 @@ public class ProductServiceImpl implements IProductService {
         return Response.createBySuccess(pageresult);
     }
 
-    private ProductListVo ProducListtConversionVo(Product product){
+    private ProductListVo ProducListConversionVo(Product product){
         ProductListVo productListVo = new ProductListVo();
         productListVo.setId(product.getId());
         productListVo.setName(product.getName());
         productListVo.setCategoryId(product.getCategoryId());
-        productListVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","http://img.happymmall.com/"));
+        productListVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","http://image.arvinmeng.com/"));
         productListVo.setMainImage(product.getMainImage());
         productListVo.setPrice(product.getPrice());
         productListVo.setSubtitle(product.getSubtitle());
@@ -159,7 +164,7 @@ public class ProductServiceImpl implements IProductService {
         List<ProductListVo> productListVoList = Lists.newArrayList();
 
         for(Product productItem : productList){
-            ProductListVo productListVo = ProducListtConversionVo(productItem);
+            ProductListVo productListVo = ProducListConversionVo(productItem);
             productListVoList.add(productListVo);
         }
         PageInfo pageresult = new PageInfo(productList);
@@ -167,4 +172,90 @@ public class ProductServiceImpl implements IProductService {
 
         return Response.createBySuccess(pageresult);
     }
+
+    public Response<ProductDetailVo> getProductDetail(Integer productId) {
+        if(productId == null){
+            return Response.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        Product product = productMapper.selectByPrimaryKey(productId);
+        if(product == null){
+            return Response.createByErrorMessage("产品已下架或者删除");
+        }
+        if(product.getStatus() != Const.ProductStatusEnum.ON_SALE.getCode()){
+            return Response.createByErrorMessage("产品已下架或者删除");
+        }
+        //vo对象 --value object
+        ProductDetailVo productDetailVo = ProductDetailConversionVo(product);
+        return Response.createBySuccess(productDetailVo);
+    }
+
+    private ProductDetailVo ProductDetailConversionVo(Product product){
+        ProductDetailVo productDetailVo = new ProductDetailVo();
+        productDetailVo.setId(product.getId());
+        productDetailVo.setPrice(product.getPrice());
+        productDetailVo.setSubtitle(product.getSubtitle());
+        productDetailVo.setMainImage(product.getMainImage());
+        productDetailVo.setSubImages(product.getSubImages());
+        productDetailVo.setCategoryId(product.getCategoryId());
+        productDetailVo.setDetail(product.getDetail());
+        productDetailVo.setName(product.getName());
+        productDetailVo.setStatus(product.getStatus());
+        productDetailVo.setStock(product.getStock());
+
+        productDetailVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","http://image.arvinmeng.com/"));
+
+        Category category = categoryMapper.selectByPrimaryKey(product.getCategoryId());
+        if(category == null){
+            productDetailVo.setParentCategoryId(0);//默认根节点
+        }else{
+            productDetailVo.setParentCategoryId(category.getParentId());
+        }
+
+        productDetailVo.setCreateTime(DateTimeUtil.dateToStr(product.getCreateTime()));
+        productDetailVo.setUpdateTime(DateTimeUtil.dateToStr(product.getUpdateTime()));
+        return productDetailVo;
+    }
+
+
+    @Override
+    public Response<PageInfo> getProductByKeywordCategory(String keyword, Integer categoryId, int pageNum, int pageSize, String orderBy) {
+        if(StringUtils.isBlank(keyword) && categoryId == null){
+            return Response.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        List<Integer> categoryIdList = new ArrayList<Integer>();
+        if(categoryId != null){
+            Category category = categoryMapper.selectByPrimaryKey(categoryId);
+            if(category == null && StringUtils.isBlank(keyword)){
+                //没有该分类，并且没有关键字，这个时候返回一个空的结果集，不报错
+                PageHelper.startPage(pageNum,pageSize);
+                List<ProductDetailVo> productDetailVoList = Lists.newArrayList();
+                PageInfo pageInfo = new PageInfo(productDetailVoList);
+                return Response.createBySuccess(pageInfo);
+            }
+            categoryIdList = iCategoryService.selectCategoryAndChildrenById(category.getId()).getData();
+        }
+        if(StringUtils.isNotBlank(keyword)){
+            keyword = new StringBuilder().append("%").append(keyword).append("%").toString();
+        }
+
+        PageHelper.startPage(pageNum,pageSize);
+        if(StringUtils.isNotBlank(orderBy)){
+            if(Const.ProductListOrderBy.PRICE_ASC_DESC.contains(orderBy)){
+                String[] orderByArray = orderBy.split("_");
+                PageHelper.orderBy(orderByArray[0]+" "+orderByArray[1]);
+            }
+        }
+        List<Product> productList = productMapper.selectByNameAndCategoryIds(StringUtils.isBlank(keyword)?null:keyword,categoryIdList.size()==0?null:categoryIdList);
+        List<ProductListVo> productListVos = Lists.newArrayList();
+        for(Product product : productList){
+            ProductListVo productListVo = ProducListConversionVo(product);
+            productListVos.add(productListVo);
+        }
+
+        PageInfo pageInfo = new PageInfo(productList);
+        pageInfo.setList(productListVos);
+        return Response.createBySuccess(pageInfo);
+    }
+
+
 }

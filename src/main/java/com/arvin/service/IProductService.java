@@ -21,4 +21,8 @@ public interface IProductService {
 
     public Response<PageInfo> searchProduct(String productName, Integer productId, int pageNum, int pageSize);
 
-}
+    public Response<PageInfo> getProductByKeywordCategory(String keyword, Integer categoryId, int pageNum, int pageSize, String orderBy);
+
+    public Response<ProductDetailVo> getProductDetail(Integer productId);
+
+    }
