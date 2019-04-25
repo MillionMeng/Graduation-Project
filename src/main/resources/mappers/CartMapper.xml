@@ -116,4 +116,43 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectCartByUserIdProductId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from arvin_cart
+    where user_id = #{userId}
+    and product_id = #{productId}
+  </select>
+  <select id="selectCartByUseId" resultMap="BaseResultMap" parameterType="int">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from arvin_cart
+    where user_id = #{userId}
+  </select>
+  <select id="selectCartProductCheckedStatusByUserId" resultType="int" parameterType="int">
+    SELECT count(1) from arvin_cart where checked = 0 and user_id = #{userId}
+  </select>
+  <delete id="deleteByUserIdProductIds" parameterType="map" >
+    DELETE  from arvin_cart
+    where user_id = #{userId}
+    <if test="productIdList != null">
+      and product_id in
+      <foreach collection="productionList" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+  <update id="checkedOrUncheckedProduct" parameterType="map">
+    UPDATE arvin_cart
+    set checked = #{checked},
+    update_time = now()
+    where user_id = #{userId}
+    <if test="productId != null">
+      and product_id = #{productId}
+    </if>
+  </update>
+  <select id="selcetCartProductCount" parameterType="int" resultType="int">
+    select IFNULL(sum(quantity),0) as count from arvin_cart where user_id = #{userId}
+  </select>
+
 </mapper>
