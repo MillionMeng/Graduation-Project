@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.arvin.dao.ShippingMapper" >
-  <resultMap id="BaseResultMap" type="com.arvin.pojo.Shipping" >
+<mapper namespace="com.arvin.dao.AddressMapper" >
+  <resultMap id="BaseResultMap" type="com.arvin.pojo.Address" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -24,15 +24,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from arvin_shipping
+    from arvin_address
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from arvin_shipping
+    delete from arvin_address
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.arvin.pojo.Shipping" >
-    insert into arvin_shipping (id, user_id, receiver_name, 
+  <insert id="insert" parameterType="com.arvin.pojo.Address" >
+    insert into arvin_address (id, user_id, receiver_name,
       receiver_phone, receiver_mobile, receiver_province, 
       receiver_city, receiver_district, receiver_address, 
       receiver_zip, create_time, update_time
@@ -43,8 +43,8 @@
       #{receiverZip,jdbcType=VARCHAR}, now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.arvin.pojo.Shipping" >
-    insert into arvin_shipping
+  <insert id="insertSelective" parameterType="com.arvin.pojo.Address" >
+    insert into arvin_address
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -122,8 +122,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.arvin.pojo.Shipping" >
-    update arvin_shipping
+  <update id="updateByPrimaryKeySelective" parameterType="com.arvin.pojo.Address" >
+    update arvin_address
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
@@ -161,8 +161,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.arvin.pojo.Shipping" >
-    update arvin_shipping
+  <update id="updateByPrimaryKey" parameterType="com.arvin.pojo.Address" >
+    update arvin_address
     set user_id = #{userId,jdbcType=INTEGER},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
       receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
@@ -176,4 +176,38 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <delete id="deleteByAddressIdUserId" parameterType="int">
+    DELETE FROM arvin_address
+    where id = #{shippingId}
+    and user_id = #{userId}
+  </delete>
+  <select id="selectByAddressIdUserId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from arvin_address
+    where id = #{shippingId}
+    and user_id = #{userId}
+  </select>
+  <update id="updateByAddress" parameterType="com.arvin.pojo.Address">
+    update arvin_address
+    set
+    receiver_name = #{receiverName,jdbcType=VARCHAR},
+    receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+    receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
+    receiver_province = #{receiverProvince,jdbcType=VARCHAR},
+    receiver_city = #{receiverCity,jdbcType=VARCHAR},
+    receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
+    receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+    receiver_zip = #{receiverZip,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+    and user_id = {userId,jdbcType=INTEFER}
+  </update>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from arvin_address
+    where user_id = #{userId}
+  </select>
 </mapper>

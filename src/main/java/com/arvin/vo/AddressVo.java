@@ -1,6 +1,6 @@
 package com.arvin.vo;
 
-public class ShippingVo {
+public class AddressVo {
 
     private String receiverName;
 

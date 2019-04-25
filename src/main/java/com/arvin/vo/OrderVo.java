@@ -36,7 +36,7 @@ public class OrderVo {
     private Integer shippingId;
     private String receiverName;
 
-    private ShippingVo shippingVo;
+    private AddressVo addressVo;
 
     public Long getOrderNo() {
         return orderNo;
@@ -166,11 +166,11 @@ public class OrderVo {
         this.receiverName = receiverName;
     }
 
-    public ShippingVo getShippingVo() {
-        return shippingVo;
+    public AddressVo getAddressVo() {
+        return addressVo;
     }
 
-    public void setShippingVo(ShippingVo shippingVo) {
-        this.shippingVo = shippingVo;
+    public void setAddressVo(AddressVo addressVo) {
+        this.addressVo = addressVo;
     }
 }
