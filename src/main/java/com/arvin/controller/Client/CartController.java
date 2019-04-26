@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -33,7 +34,7 @@ public class CartController {
      * @param productId
      * @return
      */
-    @RequestMapping("cart/add")
+    @RequestMapping(value = "/cart/add" ,method = RequestMethod.POST)
     @ResponseBody
     public Response<CartVo> add(HttpSession session, Integer count, Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -51,7 +52,7 @@ public class CartController {
      * @param productId
      * @return
      */
-    @RequestMapping("cart/update")
+    @RequestMapping(value="/cart/update",method = RequestMethod.POST)
     @ResponseBody
     public Response<CartVo> update(HttpSession session, Integer count, Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -67,7 +68,7 @@ public class CartController {
      * @param productIds
      * @return
      */
-    @RequestMapping("cart/deleteproduct")
+    @RequestMapping(value = "/cart/deleteproduct",method = RequestMethod.POST)
     @ResponseBody
     public Response<CartVo> deleteProduct(HttpSession session, String productIds) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -82,7 +83,7 @@ public class CartController {
      * @param session
      * @return
      */
-    @RequestMapping("cart/list")
+    @RequestMapping(value = "/cart/list",method = RequestMethod.GET)
     @ResponseBody
     public Response<CartVo> list(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -97,7 +98,7 @@ public class CartController {
      * @param session
      * @return
      */
-    @RequestMapping("cart/selectall")
+    @RequestMapping(value = "/cart/selectall",method = RequestMethod.POST)
     @ResponseBody
     public Response<CartVo> selectAll(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -112,7 +113,7 @@ public class CartController {
      * @param session
      * @return
      */
-    @RequestMapping("cart/unselectall")
+    @RequestMapping(value = "/cart/unselectall",method = RequestMethod.POST)
     @ResponseBody
     public Response<CartVo> unSelectAll(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -129,7 +130,7 @@ public class CartController {
      * @param productId
      * @return
      */
-    @RequestMapping("cart/selectone")
+    @RequestMapping(value = "/cart/selectone",method = RequestMethod.POST)
     @ResponseBody
     public Response<CartVo> Select(HttpSession session,Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -145,7 +146,7 @@ public class CartController {
      * @param productId
      * @return
      */
-    @RequestMapping("cart/unselectone")
+    @RequestMapping(value = "/cart/unselectone",method = RequestMethod.POST)
     @ResponseBody
     public Response<CartVo> unSelect(HttpSession session,Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -160,7 +161,7 @@ public class CartController {
      * @param session
      * @return
      */
-    @RequestMapping("cart/getproductcount")
+    @RequestMapping(value = "/cart/getproductcount",method = RequestMethod.GET)
     @ResponseBody
     public Response<Integer> getCartProductCount(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);

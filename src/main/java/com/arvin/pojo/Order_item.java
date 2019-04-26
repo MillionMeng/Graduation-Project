@@ -3,7 +3,7 @@ package com.arvin.pojo;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class order_item {
+public class Order_item {
     private Integer id;
 
     private Integer userId;
@@ -26,7 +26,7 @@ public class order_item {
 
     private Date updateTime;
 
-    public order_item(Integer id, Integer userId, Long orderNo, Integer productId, String productName, String productImage, BigDecimal currentUnitPrice, Integer quantity, BigDecimal totalPrice, Date createTime, Date updateTime) {
+    public Order_item(Integer id, Integer userId, Long orderNo, Integer productId, String productName, String productImage, BigDecimal currentUnitPrice, Integer quantity, BigDecimal totalPrice, Date createTime, Date updateTime) {
         this.id = id;
         this.userId = userId;
         this.orderNo = orderNo;
@@ -40,7 +40,7 @@ public class order_item {
         this.updateTime = updateTime;
     }
 
-    public order_item() {
+    public Order_item() {
         super();
     }
 

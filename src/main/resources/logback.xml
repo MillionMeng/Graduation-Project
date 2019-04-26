@@ -10,11 +10,11 @@
         </filter>
     </appender>
 
-    <appender name="greduation" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="graduation" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/mmalllog/mmall.log</File>-->
-        <File>D:\Tomcat\logs\mmall.log</File>
+        <File>D:\Tomcat\logs\graduation.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>D:\Tomcat\logs\greduation.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>D:\Tomcat\logs\graduation.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
@@ -43,7 +43,7 @@
         </filter>
     </appender>
 
-    <logger name="com.aravin" additivity="false" level="INFO" >
+    <logger name="com.arvin" additivity="false" level="INFO" >
         <appender-ref ref="greduation" />
         <appender-ref ref="console"/>
     </logger>

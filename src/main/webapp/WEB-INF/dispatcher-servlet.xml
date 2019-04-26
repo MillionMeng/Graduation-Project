@@ -27,6 +27,13 @@
                     </list>
                 </property>
             </bean>
+            <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+                <property name="exceptionMappings">
+                    <props>
+                        <prop key="java.io.IOException">ioErr.jsp</prop>
+                    </props>
+                </property>
+            </bean>-->
         </mvc:message-converters>
     </mvc:annotation-driven>
 

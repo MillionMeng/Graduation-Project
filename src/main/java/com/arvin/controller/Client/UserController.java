@@ -187,7 +187,16 @@ public class UserController {
     }
 
 
+    /**
+     * natapp测试
+     * @return
+     */
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public Response test(){
 
+        return Response.createBySuccess();
+    }
 
 
 
