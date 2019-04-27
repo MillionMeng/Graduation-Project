@@ -33,6 +33,11 @@ public class OrderController {
     @Autowired
     private IOrderService iOrderService;
 
+
+    /**
+     * 前三个接口为支付相关接口
+     */
+
     /**
      * 支付接口
      *
@@ -131,4 +136,90 @@ public class OrderController {
         return Response.createBySuccess(false);
     }
 
+
+    /**
+     * 订单相关接口
+     */
+
+
+    /**
+     * 创建订单
+     * @param session
+     * @param addressId 收货地址id
+     * @return
+     */
+    @RequestMapping(value = "/order/create",method = RequestMethod.POST)
+    @ResponseBody
+    public Response createOrder(HttpSession session,Integer addressId){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user ==null){
+            return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.createOrder(user.getId(),addressId);
+}
+
+    /**
+     * 取消订单
+     * @param session
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping("/order/cancel")
+    @ResponseBody
+    public Response cancel(HttpSession session, Long orderNo){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user ==null){
+            return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.cancel(user.getId(),orderNo);
+    }
+
+
+    /**
+     * 购物车产品列表
+     * @param session
+     * @return
+     */
+    @RequestMapping("/order/getorderproduct.do")
+    @ResponseBody
+    public Response getOrderCartProduct(HttpSession session){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user ==null){
+            return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.getOrderCartProduct(user.getId());
+    }
+
+    /**
+     * 订单详情
+     * @param session
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping("/order/detail")
+    @ResponseBody
+    public Response detail(HttpSession session,Long orderNo){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user ==null){
+            return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.getOrderDetail(user.getId(),orderNo);
+    }
+
+    /**
+     * 订单列表
+     * @param session
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping("/order/list")
+    @ResponseBody
+    public Response list(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user ==null){
+            return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.getOrderList(user.getId(),pageNum,pageSize);
+    }
 }
