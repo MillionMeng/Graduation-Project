@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  * Date: 2019/4/16.
  */
 @Controller
-@CrossOrigin(origins = {"http://localhost:8088", "null"})
+@CrossOrigin(origins = {"http://localhost:8086", "http://localhost:8088"})
 public class CategoryManageController {
 
     @Autowired
@@ -35,7 +35,7 @@ public class CategoryManageController {
 
     @RequestMapping(value = "/category/add", method = RequestMethod.POST)
     @ResponseBody
-    public Response addCategory(HttpSession session, @RequestParam String categoryName, @RequestParam(value = "paretId", defaultValue = "0") int parentId) {
+    public Response addCategory(HttpSession session, @RequestParam String categoryName, @RequestParam(value = "parentId", defaultValue = "0") int parentId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
@@ -73,12 +73,38 @@ public class CategoryManageController {
     }
 
     /**
+     * 查找分类节点 （平级）
+     * @param session
+     * @param categoryId
+     * @return
+     */
+    @RequestMapping("/category/get_category")
+    @ResponseBody
+    public Response getChildrenParallelCategory(HttpSession session,@RequestParam(value = "categoryId" ,defaultValue = "0") Integer categoryId){
+        User user = (User)session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录");
+        }
+        if(iUserService.checkAdmin(user).isSuccess()){
+            //查询子节点的category信息,并且不递归,保持平级
+            return iCategoryService.getChildrenParallelCategory(categoryId);
+        }else{
+            return Response.createByErrorMessage("无权限操作,需要管理员权限");
+        }
+    }
+
+
+
+    /**
+     *  目前没用到
+     *
+     *
      * 递归查找孩子节点
      * @param session
      * @param categoryId
      * @return
      */
-    @RequestMapping(value = "/category/getchildrencategory", method = RequestMethod.GET)
+    @RequestMapping(value = "/category/get_children_category", method = RequestMethod.GET)
     @ResponseBody
     public Response getCategoryAndDeepChildrenCategory(HttpSession session,@RequestParam(value = "categoryId" ,defaultValue = "0") Integer categoryId){
         User user = (User)session.getAttribute(Const.CURRENT_USER);

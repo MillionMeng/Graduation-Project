@@ -26,10 +26,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.arvin.pojo.Category" >
-    insert into arvin_category (id, parent_id, name, 
+    insert into arvin_category (parent_id, name,
       status, sort_order, create_time, 
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+    values (#{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
       #{status,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, now(),
       now())
   </insert>
@@ -119,7 +119,7 @@
   <select id="selectCategoryChildrenByParentId" resultMap="BaseResultMap" parameterType="int">
     select
     <include refid="Base_Column_List"/>
-    form arvin_category
+    from arvin_category
     WHERE parent_id = #{parent_id}
   </select>
 </mapper>

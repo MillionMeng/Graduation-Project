@@ -28,10 +28,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.arvin.pojo.PayInfo" >
-    insert into arvin_pay_info (id, user_id, order_no, 
+    insert into arvin_pay_info (user_id, order_no,
       pay_plaform, platform_number, platform_status, 
       create_time, update_time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, 
+    values (#{userId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT},
       #{payPlaform,jdbcType=INTEGER}, #{platformNumber,jdbcType=VARCHAR}, #{platformStatus,jdbcType=VARCHAR}, 
      now(),now())
   </insert>

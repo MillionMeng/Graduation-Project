@@ -172,7 +172,6 @@
       price = #{price,jdbcType=DECIMAL},
       stock = #{stock,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -185,7 +184,7 @@
   <select id="selectByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
     SELECT
     <include refid="Base_Column_List"/>
-    from mmall_product
+    from arvin_product
     <where>
       <if test="productName != null">
         and name like #{productName}
@@ -209,5 +208,8 @@
         #{item}
       </foreach>
     </if>
+  </select>
+  <select id="selectProductCount" resultType="int">
+        select count(*)  from arvin_product
   </select>
 </mapper>

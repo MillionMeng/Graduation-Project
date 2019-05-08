@@ -3,13 +3,20 @@ package com.arvin.service.Impl;
 import com.arvin.common.Const;
 import com.arvin.common.Response;
 import com.arvin.common.TokenCache;
+import com.arvin.dao.OrderMapper;
+import com.arvin.dao.ProductMapper;
 import com.arvin.dao.UserMapper;
 import com.arvin.pojo.User;
 import com.arvin.service.IUserService;
 import com.arvin.util.MD5Util;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service("iUserService")
@@ -17,6 +24,10 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private ProductMapper productMapper;
+    @Autowired
+    private OrderMapper orderMapper;
 
     public Response<User> login(String username,String password){
 
@@ -196,5 +207,37 @@ public class UserServiceImpl implements IUserService {
             return Response.createBySuccess();
         }
         return Response.createByError();
+    }
+
+
+
+
+
+    //后台首页
+
+    /**
+     * 后台获取 用户，商品，订单数量
+     * @return
+     */
+    public Response getStatistic(){
+        Map<String,Integer> data = new HashMap<>();
+        int userCount = userMapper.selectUserCount();
+        int productCount =productMapper.selectProductCount();
+        int orderCount =orderMapper.selectOrderCount();
+        data.put("userCount",userCount);
+        data.put("productCount",productCount);
+        data.put("orderCount",orderCount);
+        return Response.createBySuccess(data);
+    }
+
+
+    public Response getUserList(int pageNum,int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<User> list = userMapper.getUserList();
+        PageInfo pageResult = new PageInfo(list);
+        pageResult.setList(list);
+        return Response.createBySuccess(pageResult);
+
+
     }
 }

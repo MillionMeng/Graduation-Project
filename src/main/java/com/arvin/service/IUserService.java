@@ -24,4 +24,9 @@ public interface IUserService {
     public Response<User> getInformation(Integer userId);
 
     public Response checkAdmin(User user);
+
+    public Response getStatistic();
+
+    public Response getUserList(int pageNum,int pageSize);
+
 }

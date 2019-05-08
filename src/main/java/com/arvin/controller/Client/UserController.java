@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-//CrossOrigin(origins = {"http://localhost:8088", "null"})
+@CrossOrigin(origins = {"http://localhost:8086", "http://localhost:8088"})
 @Controller
+//@CrossOrigin(origins = {"http://localhost:8086", "null"})
 public class UserController {
     @Autowired
     private IUserService iUserService;
@@ -19,7 +20,6 @@ public class UserController {
     /**
      * 登陆接口
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     @ResponseBody
     public Response<User> login(@RequestParam String username,@RequestParam String password,HttpSession session){
@@ -36,7 +36,8 @@ public class UserController {
      * @param session
      * @return
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+   // @CrossOrigin(origins = {"http://localhost:8088", "null"})
+    @CrossOrigin(origins = {"http://localhost:8086", "http://localhost:8088"})
     @RequestMapping(value = "/user/logout", method = RequestMethod.GET)
     @ResponseBody
     public Response<String> logout(HttpSession session){
@@ -50,7 +51,7 @@ public class UserController {
      * @return
      */
 
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+   // @CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/register",method = RequestMethod.POST)
     @ResponseBody
     public Response<String> register(@RequestBody User user){
@@ -63,7 +64,7 @@ public class UserController {
      * @param type
      * @return
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+   // @CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/check",method = RequestMethod.POST)
     @ResponseBody
     public Response<String> checkVaild(@RequestParam String str,@RequestParam String type){
@@ -75,7 +76,7 @@ public class UserController {
      * @param session
      * @return
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+    //@CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/loginfo", method = RequestMethod.GET)
     @ResponseBody
     public Response<User> getUserInfo(HttpSession session){
@@ -94,7 +95,7 @@ public class UserController {
      * @param session
      * @return
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+    //@CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/getInformation", method = RequestMethod.POST)
     @ResponseBody
     public Response<User> getInformation(HttpSession session){
@@ -111,7 +112,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+    //@CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/updateInfomation", method = RequestMethod.POST)
     @ResponseBody
     public Response<User> updateInfomation(HttpSession session,@RequestBody User user){
@@ -133,7 +134,7 @@ public class UserController {
      * @param username
      * @return
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+    //@CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/forgetQuestion", method = RequestMethod.GET)
     @ResponseBody
     public Response<String> forgetQuestion(@RequestParam String username){
@@ -145,7 +146,7 @@ public class UserController {
      * @param username
      * @return
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+    //@CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/checkanswer", method = RequestMethod.POST)
     @ResponseBody
     public Response<String> checkAnswer(@RequestParam String username,@RequestParam String question,@RequestParam String answer){
@@ -160,7 +161,7 @@ public class UserController {
      * @param forgetToken
      * @return
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+    //@CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/resetpassword", method = RequestMethod.POST)
     @ResponseBody
     public Response<String> forgetResetPassword(String username,String passwordNew,String forgetToken){
@@ -174,7 +175,7 @@ public class UserController {
      * @param passwordNew
      * @return
      */
-    @CrossOrigin(origins = {"http://localhost:8088", "null"})
+    //@CrossOrigin(origins = {"http://localhost:8088", "null"})
     @RequestMapping(value = "/user/resetpasswordlogin", method = RequestMethod.POST)
     @ResponseBody
     public Response resetPassword(HttpSession session,String password,String passwordNew){

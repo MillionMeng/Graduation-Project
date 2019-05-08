@@ -38,9 +38,9 @@ public class CartController {
     @ResponseBody
     public Response<CartVo> add(HttpSession session, Integer count, Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
-        /*if (user == null) {
+        if (user == null) {
             return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
-        }*/
+        }
         return iCartService.add(user.getId(), productId, count);
     }
 

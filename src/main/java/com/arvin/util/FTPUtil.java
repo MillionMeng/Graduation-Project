@@ -29,7 +29,13 @@ public class FTPUtil {
     public static boolean uploadFile(List<File> fileList) throws IOException {
         FTPUtil ftpUtil = new FTPUtil(ftpIp,21,ftpUser,ftpPass);
         logger.info("开始连接ftp服务器");
-        boolean result = ftpUtil.uploadFile("img",fileList);
+        boolean result = false;
+        //如果是商品图片，上传到img文件夹下  如果是二维码图片，上传到qr文件夹下
+        if(fileList.get(0).getName().substring(0,2).equals("qr")){
+            result = ftpUtil.uploadFile("qr", fileList);
+        }else {
+            result = ftpUtil.uploadFile("img", fileList);
+        }
         logger.info("开始连接ftp服务器,结束上传,上传结果:{}");
         return result;
     }
@@ -78,9 +84,13 @@ public class FTPUtil {
         return isSuccess;
     }
 
-
-
-
+   /* public static void main(String[] args) {
+        String name = "qr-123";
+        System.out.println(name.substring(0,2));
+        if(name.substring(0,2).equals("qr")){
+            System.out.println("true");
+        }
+    }*/
 
 
 

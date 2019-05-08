@@ -1,6 +1,7 @@
 package com.arvin.service;
 
 import com.arvin.common.Response;
+import com.arvin.pojo.Category;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface ICategoryService {
     public Response addCategory(String categoryName, Integer parentId);
 
     public Response updateCategoryName(Integer categoryId, String categoryName);
+
+    public Response<List<Category>> getChildrenParallelCategory(Integer categoryId);
 
     public Response<List<Integer>> selectCategoryAndChildrenById(Integer categoryId);
 }

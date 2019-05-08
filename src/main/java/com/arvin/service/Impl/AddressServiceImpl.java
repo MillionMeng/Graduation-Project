@@ -48,7 +48,7 @@ public class AddressServiceImpl implements IAddressService{
         if(address == null){
             return  Response.createByErrorMessage("无法查到地址");
         }
-        return Response.createBySuccess("更新地址成功",address);
+        return Response.createBySuccess("查询地址成功",address);
     }
 
 

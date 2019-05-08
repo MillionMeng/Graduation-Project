@@ -226,4 +226,7 @@
     from arvin_order
     ORDER BY  create_time desc
   </select>
+  <select id="selectOrderCount" resultType="int">
+    select count(*)  from arvin_order
+  </select>
 </mapper>

@@ -5,7 +5,10 @@ import com.arvin.dao.CategoryMapper;
 import com.arvin.pojo.Category;
 import com.arvin.service.ICategoryService;
 import com.google.common.collect.Sets;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,8 @@ import java.util.Set;
  */
 @Service("iCategoryService")
 public class CategoryServiceImpl implements ICategoryService{
+
+    private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     @Autowired
     private CategoryMapper categoryMapper;
@@ -53,6 +58,16 @@ public class CategoryServiceImpl implements ICategoryService{
         }
         return Response.createByErrorMessage("更新品类名字失败");
     }
+
+    public Response<List<Category>> getChildrenParallelCategory(Integer categoryId){
+        List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentId(categoryId);
+        if(CollectionUtils.isEmpty(categoryList)){
+            logger.info("未找到当前分类的子分类");
+        }
+        return Response.createBySuccess(categoryList);
+    }
+
+
 
 
     //递归查询本节点的id及孩子节点的id

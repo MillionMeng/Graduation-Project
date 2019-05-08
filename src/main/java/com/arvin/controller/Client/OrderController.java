@@ -68,6 +68,19 @@ public class OrderController {
     public Object callBack(HttpServletRequest request){
         Map<String,String> map = new HashMap<>();
 
+        logger.error("****************************************");
+        logger.error("****************************************");
+        logger.error("****************************************");
+        logger.error("****************************************");
+        logger.error("****************************************");
+        logger.error("支付宝回调ing");
+        logger.error("****************************************");
+        logger.error("****************************************");
+        logger.error("****************************************");
+        logger.error("****************************************");
+        logger.error("****************************************");
+
+
         //支付宝将参数都放在request里  需要从request里取
         Map requestParameterMap = request.getParameterMap();
         //动态查询 key和value都是什么  value是放到数组里的 需要取出数组里的value值
@@ -122,7 +135,7 @@ public class OrderController {
      * @param orderNo
      * @return
      */
-    @RequestMapping("/order/query_order_pay_status")
+    @RequestMapping("/order/get_order_pay_status")
     @ResponseBody
     public Response<Boolean> queryOrderPayStatus(HttpSession session, Long orderNo){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -135,6 +148,9 @@ public class OrderController {
         }
         return Response.createBySuccess(false);
     }
+
+
+
 
 
     /**
@@ -164,7 +180,7 @@ public class OrderController {
      * @param orderNo
      * @return
      */
-    @RequestMapping("/order/cancel")
+    @RequestMapping(value = "/order/cancel",method = RequestMethod.POST)
     @ResponseBody
     public Response cancel(HttpSession session, Long orderNo){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
@@ -207,7 +223,7 @@ public class OrderController {
     }
 
     /**
-     * 订单列表
+     * 订单中的商品列表
      * @param session
      * @param pageNum
      * @param pageSize

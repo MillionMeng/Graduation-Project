@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  * Date: 2019/4/28.
  */
 @Controller
-@CrossOrigin(origins = {"http://localhost:8088", "null"})
+@CrossOrigin(origins = {"http://localhost:8086", "http://localhost:8088"})
 public class OrderManageController {
 
     @Autowired

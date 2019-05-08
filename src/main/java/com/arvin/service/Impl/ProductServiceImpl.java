@@ -4,6 +4,7 @@ import com.arvin.common.Const;
 import com.arvin.common.Response;
 import com.arvin.common.ResponseCode;
 import com.arvin.dao.CategoryMapper;
+import com.arvin.dao.ColorMapper;
 import com.arvin.dao.ProductMapper;
 import com.arvin.pojo.Category;
 import com.arvin.pojo.Product;
@@ -36,6 +37,8 @@ public class ProductServiceImpl implements IProductService {
     private CategoryMapper categoryMapper;
     @Autowired
     private ICategoryService iCategoryService;
+    @Autowired
+    private ColorMapper colorMapper;
 
 
     public Response saveOrUpdateProduct(Product product) {
@@ -47,6 +50,14 @@ public class ProductServiceImpl implements IProductService {
                 }
             }
             if (product.getId() != null) {
+                if(product.getColorName()!= null){
+                    List<String>  colorList = product.getColorName();
+                    for(String str : colorList){
+                        colorMapper.insert(str);
+                    }
+                }
+
+
                 int rowCount = productMapper.updateByPrimaryKey(product);
                 if (rowCount > 0) {
                     return Response.createBySuccess("跟新商品品成功");

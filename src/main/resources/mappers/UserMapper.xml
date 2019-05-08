@@ -219,4 +219,13 @@
     where
     username = #{username}
   </update>
+  <select id="selectUserCount" resultType="int">
+    select count(*)  from arvin_user
+  </select>
+  <select id="getUserList" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from arvin_user
+    ORDER BY  create_time desc
+  </select>
 </mapper>

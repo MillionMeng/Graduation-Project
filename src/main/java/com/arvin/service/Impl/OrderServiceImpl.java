@@ -205,7 +205,7 @@ public class OrderServiceImpl implements IOrderService{
                 }
 
                 logger.info("qrPath:" + qrPath);
-                String qrUrl = PropertiesUtil.getProperty("ftp.server.http.prefix")+targetFile.getName();
+                String qrUrl = PropertiesUtil.getProperty("ftp.server_qr.http.prefix")+targetFile.getName();
                 map.put("qrUrl",qrUrl);
 
                 //                ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
