@@ -2,7 +2,6 @@ package com.arvin.pojo;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 public class Product {
     private Integer id;
@@ -29,7 +28,7 @@ public class Product {
 
     private Date updateTime;
 
-    private List<String> colorName;
+    private String colorName;
 
     public Product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages, String detail, BigDecimal price, Integer stock, Integer status, Date createTime, Date updateTime) {
         this.id = id;
@@ -146,11 +145,11 @@ public class Product {
         this.updateTime = updateTime;
     }
 
-    public List<String> getColorName() {
+    public String getColorName() {
         return colorName;
     }
 
-    public void setColorName(List<String> colorName) {
+    public void setColorName(String colorName) {
         this.colorName = colorName;
     }
 }

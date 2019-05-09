@@ -8,12 +8,18 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List" >
-        id, name
+        id, color_name
     </sql>
 
-    <insert id="insert">
-      insert into arvin_product_color name values #{name}
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.arvin.pojo.Color">
+      insert into arvin_color (color_name) values (#{name})
     </insert>
+    <select id="selectByColorName" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from arvin_color
+        where color_name = #{name}
+    </select>
 
 
 </mapper>

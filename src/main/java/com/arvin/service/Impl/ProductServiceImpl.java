@@ -5,6 +5,7 @@ import com.arvin.common.Response;
 import com.arvin.common.ResponseCode;
 import com.arvin.dao.CategoryMapper;
 import com.arvin.dao.ColorMapper;
+import com.arvin.dao.ProductColorMapper;
 import com.arvin.dao.ProductMapper;
 import com.arvin.pojo.Category;
 import com.arvin.pojo.Product;
@@ -18,6 +19,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,8 @@ import java.util.List;
 @Service("iProductService")
 public class ProductServiceImpl implements IProductService {
 
+    private static  final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     @Autowired
     private ProductMapper productMapper;
     @Autowired
@@ -39,6 +44,9 @@ public class ProductServiceImpl implements IProductService {
     private ICategoryService iCategoryService;
     @Autowired
     private ColorMapper colorMapper;
+    @Autowired
+    private ProductColorMapper productColorMapper;
+
 
 
     public Response saveOrUpdateProduct(Product product) {
@@ -49,23 +57,45 @@ public class ProductServiceImpl implements IProductService {
                     product.setMainImage(subImageArray[0]);
                 }
             }
+            /*String[] strArray = null;
+            //有商品 颜色分类
+            if(product.getColorName() != null){
+                strArray = product.getColorName().split(",");
+
+            }*/
             if (product.getId() != null) {
-                if(product.getColorName()!= null){
-                    List<String>  colorList = product.getColorName();
-                    for(String str : colorList){
-                        colorMapper.insert(str);
-                    }
-                }
-
-
                 int rowCount = productMapper.updateByPrimaryKey(product);
+
                 if (rowCount > 0) {
                     return Response.createBySuccess("跟新商品品成功");
                 } else {
                     return Response.createByErrorMessage("更新商品失败");
                 }
             } else {
+                //插入商品
+                logger.error("更新前"+product.getId(),product);
                 int rowCount = productMapper.insert(product);
+                logger.error("更新后"+product.getId(),product);
+               /* for(String str : strArray){
+                    //查询颜色表中是否有该颜色
+                    Color result = colorMapper.selectByColorName(str);
+                    //没有该颜色
+                    if(result == null){
+                        //将颜色插入表中
+                        Color color = new Color();
+                        color.setName(str);
+                        logger.error("更新颜色前"+color.getId(),color);
+                        colorMapper.insert(color);
+                        logger.error("更新颜色后"+color.getId(),color);
+                        //并将该颜色id 与商品id 插入到商品颜色关联表中
+                        productColorMapper.insert(product.getId(),color.getId());
+                    }
+                    //如果有该颜色
+                    else {
+                        //直接将该颜色插入到商品颜色关联表中
+                        productColorMapper.insert(product.getId(),result.getId());
+                    }
+                }*/
                 if (rowCount > 0) {
                     return Response.createBySuccess("新增商品成功");
                 } else {

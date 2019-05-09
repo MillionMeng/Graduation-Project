@@ -44,7 +44,7 @@ public class ProductManageController {
      */
     @RequestMapping(value = "/product/save",method = RequestMethod.POST)
     @ResponseBody
-    public Response productSaveOrUpdate(HttpSession session, Product product){
+    public Response productSaveOrUpdate(HttpSession session,Product product){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null){
             return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
@@ -204,4 +204,18 @@ public class ProductManageController {
             return resultMap;
         }*/
     }
+
+
+
+
+    public static void main(String[] args) {
+        String str="a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
+        String[] strArray = null;
+        strArray = str.split(",");
+        for(String s : strArray){
+            System.out.println(s);
+        }
+    }
 }
+
+

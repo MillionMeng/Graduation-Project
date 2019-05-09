@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvin.dao.ProductColorMapper" >
+    <resultMap id="BaseResultMap" type="com.arvin.pojo.ProductColor" >
+        <constructor >
+            <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="product_id" jdbcType="VARCHAR" javaType="java.lang.Integer" />
+            <arg column="color_id" jdbcType="VARCHAR" javaType="java.lang.Integer" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, product_id,color_id
+    </sql>
+<insert id="insert" parameterType="map">
+    insert into arvin_product_color (product_id,color_id) VALUES (#{productId},#{colorId})
+</insert>
+
+
+
+</mapper>
