@@ -190,4 +190,9 @@
     from arvin_order_item
     where order_no = #{orderNo}
   </select>
+  <select id="SelectByUserIdAndProductId" parameterType="map" resultType="int">
+    SELECT count(*) from arvin_order_item
+    where user_id = #{userId}
+    and product_id = #{productId}
+  </select>
 </mapper>

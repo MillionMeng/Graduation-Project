@@ -68,17 +68,7 @@ public class OrderController {
     public Object callBack(HttpServletRequest request){
         Map<String,String> map = new HashMap<>();
 
-        logger.error("****************************************");
-        logger.error("****************************************");
-        logger.error("****************************************");
-        logger.error("****************************************");
-        logger.error("****************************************");
-        logger.error("支付宝回调ing");
-        logger.error("****************************************");
-        logger.error("****************************************");
-        logger.error("****************************************");
-        logger.error("****************************************");
-        logger.error("****************************************");
+
 
 
         //支付宝将参数都放在request里  需要从request里取

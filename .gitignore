@@ -25,3 +25,5 @@ target/
 #system ignore
 .DB_Store
 Thumbs.db
+
+.test/

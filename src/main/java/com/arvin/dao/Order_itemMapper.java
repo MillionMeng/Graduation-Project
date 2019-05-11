@@ -25,6 +25,8 @@ public interface Order_itemMapper {
 
     List<Order_item> getByOrderNo(@Param("orderNo")Long orderNo);
 
+    int SelectByUserIdAndProductId(@Param("productId")Integer productId, @Param("userId")Integer userId);
+
 
 
 }

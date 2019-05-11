@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvin.dao.CommentMapper" >
+    <resultMap id="BaseResultMap" type="com.arvin.pojo.Comment" >
+        <constructor >
+            <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="product_id " jdbcType="VARCHAR" javaType="java.lang.Integer" />
+            <arg column="user_id  " jdbcType="VARCHAR" javaType="java.lang.Integer" />
+            <arg column="comment" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, product_id,user_id,comment,create_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.arvin.pojo.Comment">
+        insert into arvin_comment (product_id,user_id,comment,create_time)
+        VALUES (#{productId},#{userId},#{content},now())
+    </insert>
+    <select id="selectList" parameterType="int" resultType="map">
+      select c.id,c.product_id,c.user_id,DATE_FORMAT(c.create_time,'%Y-%m-%d %H:%i:%s') as createTime,c.comment,u.username
+      from (select c.id,c.product_id,c.user_id,c.create_time,c.comment from arvin_comment c where product_id = #{productId} ) c
+      left join arvin_user u on c.user_id = u. id order by c.create_time desc
+    </select>
+    <select id="selectCommentCount" parameterType="int" resultType="int">
+        select count(*) from arvin_comment WHERE product_id = #{productId}
+    </select>
+
+
+</mapper>
