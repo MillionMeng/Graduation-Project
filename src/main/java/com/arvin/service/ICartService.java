@@ -8,7 +8,7 @@ import com.arvin.vo.CartVo;
  * Date: 2019/4/19.
  */
 public interface ICartService {
-    public Response<CartVo> add(Integer userId, Integer productId, Integer count);
+    public Response<CartVo> add(Integer userId, Integer productId, Integer count,String remarks);
 
     public Response<CartVo> update(Integer userId,Integer productId,Integer count);
 

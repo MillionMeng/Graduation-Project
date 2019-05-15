@@ -34,7 +34,7 @@ public class CartServiceImpl implements ICartService{
     @Autowired
     private ProductMapper productMapper;
 
-    public Response<CartVo> add(Integer userId, Integer productId, Integer count){
+    public Response<CartVo> add(Integer userId, Integer productId, Integer count,String remarks){
         if(productId ==null || count == null){
             return Response.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
@@ -47,6 +47,7 @@ public class CartServiceImpl implements ICartService{
             cartItem.setChecked(Const.Cart.CHECKED);
             cartItem.setProductId(productId);
             cartItem.setUserId(userId);
+            cartItem.setRemarks(remarks);
 
             cartMapper.insert(cartItem);
         }else {
@@ -75,6 +76,7 @@ public class CartServiceImpl implements ICartService{
                 cartProductVo.setId(cartItem.getId());
                 cartProductVo.setUserId(cartItem.getUserId());
                 cartProductVo.setProductId(cartItem.getProductId());
+                cartProductVo.setRemarks(cartItem.getRemarks());
 
                 Product product = productMapper.selectByPrimaryKey(cartItem.getProductId());
                 if(product != null){

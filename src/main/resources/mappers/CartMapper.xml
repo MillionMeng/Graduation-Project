@@ -13,7 +13,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, product_id, quantity, checked, create_time, update_time
+    id, user_id, product_id, quantity, checked, create_time, update_time,remarks
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -28,10 +28,10 @@
   <insert id="insert" parameterType="com.arvin.pojo.Cart" >
     insert into arvin_cart (id, user_id, product_id, 
       quantity, checked, create_time, 
-      update_time)
+      update_time,remarks)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
       #{quantity,jdbcType=INTEGER}, #{checked,jdbcType=INTEGER}, now(),
-      now())
+      now(),#{remarks})
   </insert>
   <insert id="insertSelective" parameterType="com.arvin.pojo.Cart" >
     insert into arvin_cart

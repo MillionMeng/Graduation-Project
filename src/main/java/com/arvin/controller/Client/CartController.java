@@ -8,10 +8,7 @@ import com.arvin.service.ICartService;
 import com.arvin.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,12 +33,12 @@ public class CartController {
      */
     @RequestMapping(value = "/cart/add" ,method = RequestMethod.POST)
     @ResponseBody
-    public Response<CartVo> add(HttpSession session, Integer count, Integer productId) {
+    public Response<CartVo> add(HttpSession session, Integer count, Integer productId,@RequestParam(value ="remarks",defaultValue = "")String remarks) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return Response.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
         }
-        return iCartService.add(user.getId(), productId, count);
+        return iCartService.add(user.getId(), productId, count,remarks);
     }
 
 

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class CartProductVo {
 
-//结合了产品和购物车的一个抽象对象
+    //结合了商品和购物车的一个抽象对象
 
     private Integer id;
     private Integer userId;
@@ -20,6 +20,7 @@ public class CartProductVo {
     private Integer productChecked;//此商品是否勾选
 
     private String limitQuantity;//限制数量的一个返回结果
+    private String remarks;
 
     public Integer getId() {
         return id;
@@ -123,4 +124,12 @@ public class CartProductVo {
 
     public void setLimitQuantity(String limitQuantity) {
         this.limitQuantity = limitQuantity;}
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 }
