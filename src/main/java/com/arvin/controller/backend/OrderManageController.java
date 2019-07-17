@@ -48,7 +48,7 @@ public class OrderManageController {
 
         }
         if(iUserService.checkAdmin(user).isSuccess()){
-            //填充我们增加产品的业务逻辑
+            //填充增加产品的业务逻辑
             return iOrderService.manageList(pageNum,pageSize);
         }else{
             return Response.createByErrorMessage("无权限操作");

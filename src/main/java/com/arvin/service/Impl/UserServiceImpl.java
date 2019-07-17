@@ -3,6 +3,7 @@ package com.arvin.service.Impl;
 import com.arvin.common.Const;
 import com.arvin.common.Response;
 import com.arvin.common.TokenCache;
+import com.arvin.dao.CommentMapper;
 import com.arvin.dao.OrderMapper;
 import com.arvin.dao.ProductMapper;
 import com.arvin.dao.UserMapper;
@@ -28,6 +29,8 @@ public class UserServiceImpl implements IUserService {
     private ProductMapper productMapper;
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
     public Response<User> login(String username,String password){
 
@@ -224,9 +227,11 @@ public class UserServiceImpl implements IUserService {
         int userCount = userMapper.selectUserCount();
         int productCount =productMapper.selectProductCount();
         int orderCount =orderMapper.selectOrderCount();
+        int commentCount = commentMapper.selectComment();
         data.put("userCount",userCount);
         data.put("productCount",productCount);
         data.put("orderCount",orderCount);
+        data.put("commentCount",commentCount);
         return Response.createBySuccess(data);
     }
 

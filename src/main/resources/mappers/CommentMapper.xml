@@ -4,8 +4,8 @@
     <resultMap id="BaseResultMap" type="com.arvin.pojo.Comment" >
         <constructor >
             <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-            <arg column="product_id " jdbcType="VARCHAR" javaType="java.lang.Integer" />
-            <arg column="user_id  " jdbcType="VARCHAR" javaType="java.lang.Integer" />
+            <arg column="product_id " jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="user_id  " jdbcType="INTEGER" javaType="java.lang.Integer" />
             <arg column="comment" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
         </constructor>
@@ -25,6 +25,9 @@
     </select>
     <select id="selectCommentCount" parameterType="int" resultType="int">
         select count(*) from arvin_comment WHERE product_id = #{productId}
+    </select>
+    <select id="selectComment" resultType="int">
+        SELECT count(*) from arvin_comment where 1=1
     </select>
 
 

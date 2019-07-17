@@ -67,7 +67,7 @@ public class ProductServiceImpl implements IProductService {
                 int rowCount = productMapper.updateByPrimaryKey(product);
 
                 if (rowCount > 0) {
-                    return Response.createBySuccess("跟新商品品成功");
+                    return Response.createBySuccess("更新商品品成功");
                 } else {
                     return Response.createByErrorMessage("更新商品失败");
                 }

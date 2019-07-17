@@ -195,7 +195,7 @@
   </select>
   <update id="updatePasswordByUsername" parameterType="map" >
   UPDATE arvin_user
-  SET password = #{passwordNew},update_time = now();
+  SET password = #{passwordNew},update_time = now()
   where username = #{username}
   </update>
   <select id="checkPassword" resultType="int" parameterType="map">

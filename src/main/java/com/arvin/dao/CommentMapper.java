@@ -15,6 +15,9 @@ public interface CommentMapper {
 
     List<Map<String,String>> selectList(Integer productId);
 
-     int selectCommentCount(Integer productId);
+    int selectCommentCount(Integer productId);
+
+    int selectComment();
+
 
 }

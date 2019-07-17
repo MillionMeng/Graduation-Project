@@ -54,7 +54,7 @@ public class UserManagerController {
 
 
     /**
-     * 后台获取 用户，商品，订单数量
+     * 后台获取 用户，商品，订单,评论 数量
      * @param session
      * @return
      */
