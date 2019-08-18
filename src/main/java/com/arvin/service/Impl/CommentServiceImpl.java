@@ -6,9 +6,8 @@ import com.arvin.dao.CommentMapper;
 import com.arvin.dao.Order_itemMapper;
 import com.arvin.pojo.Comment;
 import com.arvin.service.ICommentService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +20,10 @@ import java.util.Map;
  * Date: 2019/5/9.
  */
 @Service("iCommentService")
+@Slf4j
 public class CommentServiceImpl implements ICommentService {
 
-    private Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
+    //private Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
 
     @Autowired
     private CommentMapper commentMapper;
@@ -72,7 +72,7 @@ public class CommentServiceImpl implements ICommentService {
 
     public Response Permission(Comment comment){
         int resRow = orderItemMapper.SelectByUserIdAndProductId(comment.getProductId(),comment.getUserId());
-        logger.error("返回结果"+resRow,resRow);
+        log.error("返回结果"+resRow,resRow);
         if(resRow == 0){
             return Response.createByErrorMessage("您未购买该商品，无法评论！");
         }
@@ -89,7 +89,7 @@ public class CommentServiceImpl implements ICommentService {
                 }
             }
         }catch (RuntimeException e){
-            logger.error("查询异常" ,e);
+            log.error("查询异常" ,e);
         }
 
     }
